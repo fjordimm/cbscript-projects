@@ -2,6 +2,8 @@ dir "C:\Users\billm\AppData\Roaming\.minecraft\saves\testing datapack"
 desc "Bruh test"
 scale 1000
 
+array shim[10]
+
 reset
 	tell @a "yeehaw"
 	for $i in $range(0, 3)
@@ -22,4 +24,11 @@ reset
 
 	pepe = 9 + 10
 	tell @a "Peepee is (pepe)"
+
+	
+	shim[0] = 90
+	shim[1] = 30
+	for $item in shim
+		tell @a "the thing is $item"
+	end
 end

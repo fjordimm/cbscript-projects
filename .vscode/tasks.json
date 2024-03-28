@@ -5,7 +5,7 @@
 		{
 			"label": "MAIN_TASK",
 			"type": "shell",
-			"command": "C:\\Users\\billm\\repos\\cbscript\\run.cmd C:\\Users\\billm\\repos\\cbscript-projects\\testing1\\testing1.cbscript",
+			"command": "C:\\Users\\billm\\repos\\cbscript\\run.cmd ${file}",
 			"group": {"kind": "build", "isDefault": true}
 		}
 	]
