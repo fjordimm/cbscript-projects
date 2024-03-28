@@ -12,52 +12,56 @@ reset
 
 	tell @a "{w{ILoaded {Dhudinfo{d datapack!"
 
-	/scoreboard objectives add toggle_coords trigger "HudInfo::ToggleCoords"
+	/scoreboard objectives add hudinfo_options trigger "HudInfo Options"
 
 	as @Player
+		@s.hudinfo_all = True
 		@s.hudinfo_coords = True
-		/scoreboard players set @s toggle_coords 0
-		/scoreboard players enable @s toggle_coords
+
+		/scoreboard players set @s hudinfo_options 0
+		/scoreboard players enable @s hudinfo_options
 	end
 end
 
 clock tick
 	as @Player
 
-		# displaying coords
-		if @s.hudinfo_coords
-			coords_x_w = @s.x / $computation_precision
-			coords_x_d = (@s.x % $computation_precision) * $display_precision / $computation_precision
-			coords_y_w = @s.y / $computation_precision
-			coords_y_d = (@s.y % $computation_precision) * $display_precision / $computation_precision
-			coords_z_w = @s.z / $computation_precision
-			coords_z_d = (@s.z % $computation_precision) * $display_precision / $computation_precision
-			actionbar @s "{ghee"
-			/title @s actionbar ["",{"score":{"name":"Global","objective":"coords_x_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"coords_x_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"coords_y_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"coords_y_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"coords_z_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"coords_z_d"},"color":"gray"}]
+		if @s.hudinfo_all
+			display_coords()
 		else
 			actionbar @s ""
 		end
 
-		# toggling coords
-		if @s.toggle_coords == 1
-			if @s.hudinfo_coords == True
-				@s.hudinfo_coords = False
-			else
-				@s.hudinfo_coords = True
-			end
+		if @s.hudinfo_options == 1
+			tell_hudinfo_options()
 
-			/scoreboard players set @s toggle_coords 0
-			/scoreboard players enable @s toggle_coords
+			/scoreboard players set @s hudinfo_options 0
+			/scoreboard players enable @s hudinfo_options
 		end
 
 	end
-
-	#as @Player
-	#	x = @s.x
-	#	y = @s.y
-	#	z = @s.z
-	#	actionbar @s "(x), (y), (z)"
-	#end
 end
 
-#function display_coords
+function tell_hudinfo_options()
+	tell @s ""
+	tell @s "{w{u  HudInfo Options"
+	tell @s "{g  [\[Toggle\]](/function $namespace:toggle_all)"
+end
+
+function display_coords()
+	coords_x_w = @s.x / $computation_precision
+	coords_x_d = (@s.x % $computation_precision) * $display_precision / $computation_precision
+	coords_y_w = @s.y / $computation_precision
+	coords_y_d = (@s.y % $computation_precision) * $display_precision / $computation_precision
+	coords_z_w = @s.z / $computation_precision
+	coords_z_d = (@s.z % $computation_precision) * $display_precision / $computation_precision
+	/title @s actionbar ["",{"score":{"name":"Global","objective":"coords_x_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"coords_x_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"coords_y_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"coords_y_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"coords_z_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"coords_z_d"},"color":"gray"}]
+end
+
+function toggle_all()
+	if @s.hudinfo_all == False
+		@s.hudinfo_all = True
+	else
+		@s.hudinfo_all = False
+	end
+end
