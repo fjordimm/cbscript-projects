@@ -18,5 +18,8 @@ reset
 		tell @a "We on $i"
 	end
 
-	tell @a "{y[hehehe](/give fjordimm minecraft:diamond) yippeeeeeee"
+	tell @a "{U{y[hehehe](/give fjordimm minecraft:diamond){u {wyippeeeeeee"
+
+	pepe = 9 + 10
+	tell @a "Peepee is (pepe)"
 end
