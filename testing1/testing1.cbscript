@@ -1,0 +1,22 @@
+dir "C:\Users\billm\AppData\Roaming\.minecraft\saves\testing datapack"
+desc "Bruh test"
+scale 1000
+
+reset
+	tell @a "yeehaw"
+	for $i in $range(0, 3)
+		tell @a "We at $i"
+	end
+
+	tell @a "yeehoe"
+	for $i in $range(0, 5)
+		tell @a "We on $i"
+	end
+
+	tell @a "huhuh"
+	for $i in $range(0, 5)
+		tell @a "We on $i"
+	end
+
+	tell @a "{y[hehehe](/give fjordimm minecraft:diamond) yippeeeeeee"
+end
