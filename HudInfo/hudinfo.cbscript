@@ -1,0 +1,59 @@
+dir "C:\Users\billm\AppData\Roaming\.minecraft\saves\testing datapack"
+desc "Displays coordinates and other things above the hotbar"
+scale 1000
+$computation_precision = 1000
+$display_precision = 10
+
+import entities
+
+reset
+	# /gamerule sendCommandFeedback false
+
+	tell @a "{wLoaded displaycoords datapack!"
+
+	/scoreboard objectives add toggle_coords trigger "HudInfo::ToggleCoords"
+
+	as @Player
+		@s.hudinfo_coords = True
+		/scoreboard players set @s toggle_coords 0
+		/scoreboard players enable @s toggle_coords
+	end
+end
+
+clock tick
+	as @Player
+
+		# displaying coords
+		if @s.hudinfo_coords
+			coords_x_w = @s.x / $computation_precision
+			coords_x_d = (@s.x % $computation_precision) * $display_precision / $computation_precision
+			coords_y = @s.y
+			coords_z = @s.z
+			actionbar @s "(coords_x_w).(coords_x_d) / (coords_y) / (coords_z)"
+		else
+			actionbar @s ""
+		end
+
+		# toggling coords
+		if @s.toggle_coords == 1
+			if @s.hudinfo_coords == True
+				@s.hudinfo_coords = False
+			else
+				@s.hudinfo_coords = True
+			end
+
+			/scoreboard players set @s toggle_coords 0
+			/scoreboard players enable @s toggle_coords
+		end
+
+	end
+
+	#as @Player
+	#	x = @s.x
+	#	y = @s.y
+	#	z = @s.z
+	#	actionbar @s "(x), (y), (z)"
+	#end
+end
+
+#function display_coords

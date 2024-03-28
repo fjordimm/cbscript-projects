@@ -2,46 +2,16 @@ dir "C:\Users\billm\AppData\Roaming\.minecraft\saves\testing datapack"
 desc "Bruh test"
 scale 1000
 
-import common
-
-define @CoolCow = @Entity[type=cow,tag=NiceCow]
-	create {Tags:["NiceCow"]}
-end
+import entities
 
 reset
-	tell @a "yeehaw"
-	for $i in $range(0, 3)
-		tell @a "We at $i"
-	end
+	tell @a "{yLoaded the data pack!"
 
-	tell @a "yeehoe"
-	for $i in $range(0, 5)
-		tell @a "We on $i"
-	end
+	# tell @a "(fjordimm.selected_slot)"
+end
 
-	tell @a "huhuh"
-	for $i in $range(0, 5)
-		tell @a "We on $i"
-	end
-
-	tell @a "{U{y[hehehe](/give fjordimm minecraft:diamond){u {wyippeeeeeee"
-
-	pepe = 9 + 10
-	tell @a "Peepee is (pepe)"
-
-	tell @Player "fuck you bloody bitch"
-
-#	at @Player
-#		create @CoolCow
-#	end
-
-	at @Player
-		create @Entity[type=sheep]
-	end
-
-	tell @a ""
-	tell @a ""
-	tell @a ""
-
-	tell @a "{U{R[Kill all cool cows](/kill @CoolCow)"
+clock tick
+	#as @Player at @s ~ ~ ~
+	#	/data modify storage $namespace:stuff set value 
+	#end
 end

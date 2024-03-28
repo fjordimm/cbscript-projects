@@ -1,0 +1,28 @@
+define @Entity: @e
+	x: Pos[0] double
+	y: Pos[1] double
+	z: Pos[2] double
+	<pos>: Pos double
+	vx: Motion[0] double
+	vy: Motion[1] double
+	vz: Motion[2] double
+	<vel>: Motion double
+	ry: Rotation[0] float
+	rx: Rotation[1] float
+	on_ground: OnGround byte 1
+	no_gravity: NoGravity byte 1
+	fire: Fire short 1
+	hp: Health float 1
+    absorption: AbsorptionAmount float 1
+	invulnerable: Invulnerable byte 1
+	silent: Silent byte 1
+	glowing: Glowing byte 1
+	noai: NoAI byte 1
+	air: Air short 1
+    tele_duration: teleport_duration int 1
+end
+
+define @Player: @Entity[type=player]
+	selected_slot: SelectedItemSlot int 1
+	
+end

@@ -1,5 +1,3 @@
-$marker = $'"Marker:1b, Invisible:1b, NoGravity:1b, Invulnerable:1b, Silent:1b"'
-
 define @Entity: @e
 	x: Pos[0] double
 	y: Pos[1] double
@@ -24,21 +22,6 @@ define @Entity: @e
     tele_duration: teleport_duration int 1
 end
 
-define @Marker: @Entity[type=marker]
-end
-
 define @Player: @Entity[type=player]
 	selected_slot: SelectedItemSlot int 1
-end
-
-define @Position : 0-0-0-0-0xC1 (@Entity[type=marker])
-	create {Duration:-1, Age:-0x80000000, WaitTime:-0x80000000, UUID: [I; 0,0,0,0xC1]}
-end
-
-define @Position2 : 0-0-0-0-0xC2 (@Entity[type=marker])
-	create {Duration:-1, Age:-0x80000000, WaitTime:-0x80000000, UUID: [I; 0,0,0,0xC2]}
-end
-
-define @Position3 : 0-0-0-0-0xC3 (@Entity[type=marker])
-	create {Duration:-1, Age:-0x80000000, WaitTime:-0x80000000, UUID: [I; 0,0,0,0xC3]}
 end
