@@ -2,7 +2,11 @@ dir "C:\Users\billm\AppData\Roaming\.minecraft\saves\testing datapack"
 desc "Bruh test"
 scale 1000
 
-array shim[10]
+import common
+
+define @CoolCow = @Entity[type=cow]
+	create {Fire:1000s}
+end
 
 reset
 	tell @a "yeehaw"
@@ -25,10 +29,9 @@ reset
 	pepe = 9 + 10
 	tell @a "Peepee is (pepe)"
 
-	
-	shim[0] = 90
-	shim[1] = 30
-	for $item in shim
-		tell @a "the thing is $item"
+	tell @Player "fuck you bloody bitch"
+
+	at @Player
+		create @CoolCow
 	end
 end
