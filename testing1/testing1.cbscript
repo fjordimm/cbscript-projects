@@ -4,8 +4,8 @@ scale 1000
 
 import common
 
-define @CoolCow = @Entity[type=cow]
-	create {Fire:1000s}
+define @CoolCow = @Entity[type=cow,tag=NiceCow]
+	create {Tags:["NiceCow"]}
 end
 
 reset
@@ -31,7 +31,17 @@ reset
 
 	tell @Player "fuck you bloody bitch"
 
+#	at @Player
+#		create @CoolCow
+#	end
+
 	at @Player
-		create @CoolCow
+		create @Entity[type=sheep]
 	end
+
+	tell @a ""
+	tell @a ""
+	tell @a ""
+
+	tell @a "{U{R[Kill all cool cows](/kill @CoolCow)"
 end
