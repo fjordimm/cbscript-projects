@@ -1,0 +1,21 @@
+dir "C:\Users\billm\AppData\Roaming\.minecraft\saves\testing datapack"
+desc "When you die, your items are stored in a grave"
+scale 1000
+
+import entities
+
+define @GraveBlockDisplay: @Entity[type=block_display, tag=GraveBlockDisplay]
+	create {Tags:["GraveBlockDisplay"],block_state:{Name:"minecraft:stone_brick_wall"}}
+end
+
+reset
+	tell @a "{w{ILoaded {Dgrave{d datapack!"
+end
+
+function make_new_grave()
+	at @s ~-0.5 ~ ~-0.5
+		as create @GraveBlockDisplay
+			
+		end
+	end
+end
