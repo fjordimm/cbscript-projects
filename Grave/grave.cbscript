@@ -5,7 +5,11 @@ scale 1000
 import entities
 
 define @GraveBlockDisplay: @Entity[type=block_display, tag=GraveBlockDisplay]
-	create {Tags:["GraveBlockDisplay"],block_state:{Name:"minecraft:stone_brick_wall"}}
+	create {Tags:["GraveBlockDisplay"],block_state:{Name:"minecraft:soul_lantern"}}
+end
+
+define @GraveText: @Entity[type=armor_stand, tag=GraveText]
+	create {Tags:["GraveText"],NoGravity:1b,Silent:1b,Invulnerable:1b,Invisible:1b,CustomNameVisible:1b,CustomName:"Grave"}
 end
 
 reset
@@ -15,6 +19,11 @@ end
 function make_new_grave()
 	at @s ~-0.5 ~ ~-0.5
 		as create @GraveBlockDisplay
+		end
+	end
+
+	at @s ~ ~-1.3 ~
+		as create @GraveText
 			
 		end
 	end
