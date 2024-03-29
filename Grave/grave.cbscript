@@ -1,19 +1,30 @@
-dir "C:\Users\billm\AppData\Roaming\.minecraft\saves\testing datapack"
+dir "C:\Users\billm\AppData\Roaming\.minecraft\saves\testingpacks2"
 desc "When you die, your items are stored in a grave"
 scale 1000
 
 import entities
 
 define @GraveBlockDisplay: @Entity[type=block_display, tag=GraveBlockDisplay]
-	create {Tags:["GraveBlockDisplay"],block_state:{Name:"minecraft:soul_lantern"}}
+	create {Tags:["GraveBlockDisplay"],block_state:{Name:"minecraft:soul_lantern"},Glowing:1b}
 end
 
-define @GraveText: @Entity[type=armor_stand, tag=GraveText]
-	create {Tags:["GraveText"],NoGravity:1b,Silent:1b,Invulnerable:1b,Invisible:1b,CustomNameVisible:1b,CustomName:"Grave"}
+define @GraveInteraction: @Entity[type=interaction, tag=GraveInteraction]
+	create {Tags:["GraveInteraction"],response:1b,width:0.5f,height:0.6f}
+end
+
+define @TempInventorySlots: @Entity[type=chest_minecart, tag=TempInventorySlots]
+	create {Tags:["TempInventorySlots"]}
 end
 
 reset
 	tell @a "{w{ILoaded {Dgrave{d datapack!"
+end
+
+clock tick
+	as @GraveInteraction
+		/execute if data entity @s attack run function $namespace:grave_attacked
+		/execute if data entity @s interaction run function $namespace:grave_interacted
+	end
 end
 
 function make_new_grave()
@@ -22,9 +33,32 @@ function make_new_grave()
 		end
 	end
 
-	at @s ~ ~-1.3 ~
-		as create @GraveText
-			
+	at @s ~ ~ ~
+		as create @GraveInteraction
 		end
 	end
+end
+
+function grave_attacked()
+	kill_grave()
+end
+
+function grave_interacted()
+	kill_grave()
+end
+
+function kill_grave()
+	as create @TempInventorySlots
+		at @s
+			/item replace entity @s inventory.3 with minecraft:diamond
+			# /kill @s
+		end
+	end
+
+	# create @TempInventorySlots
+	# /item replace entity @e[tag=TempInventorySlots,limit=1,sort=nearest] inventory.3 with minecraft:diamond
+	# /kill @e[tag=TempInventorySlots,limit=1,sort=nearest]
+
+	/kill @GraveBlockDisplay[limit=1,sort=nearest]
+	/kill @s
 end
