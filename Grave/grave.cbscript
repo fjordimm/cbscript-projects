@@ -28,6 +28,11 @@ reset
 	/scoreboard objectives add grave_storageA2 dummy
 	/scoreboard objectives add grave_storageA3 dummy
 
+	/scoreboard objectives add grave_storageB0 dummy
+	/scoreboard objectives add grave_storageB1 dummy
+	/scoreboard objectives add grave_storageB2 dummy
+	/scoreboard objectives add grave_storageB3 dummy
+
 	/scoreboard objectives add grave_pdeaths deathCount
 end
 
@@ -63,6 +68,17 @@ function make_new_grave()
 				copy_grave_items_a()
 			end
 			/tp @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] 0 100 0
+
+			# grave storage B
+			create @GraveStorage
+			/execute store result score @s grave_storageB0 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[0]
+			/execute store result score @s grave_storageB1 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[1]
+			/execute store result score @s grave_storageB2 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[2]
+			/execute store result score @s grave_storageB3 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[3]
+			as @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest]
+				copy_grave_items_b()
+			end
+			/tp @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] 0 100 0
 		end
 	end
 
@@ -93,6 +109,22 @@ function kill_grave()
 			/execute store result score Global tt_grave_storA3 run data get entity @s UUID[3]
 
 			if t_grave_storA0 == tt_grave_storA0 and t_grave_storA1 == tt_grave_storA1 and t_grave_storA2 == tt_grave_storA2 and t_grave_storA3 == tt_grave_storA3
+				/tp @s ~ ~ ~
+				/kill @s
+			end
+		end
+
+		t_grave_storB0 = @s.grave_storageB0
+		t_grave_storB1 = @s.grave_storageB1
+		t_grave_storB2 = @s.grave_storageB2
+		t_grave_storB3 = @s.grave_storageB3
+		as @GraveStorage
+			/execute store result score Global tt_grave_storB0 run data get entity @s UUID[0]
+			/execute store result score Global tt_grave_storB1 run data get entity @s UUID[1]
+			/execute store result score Global tt_grave_storB2 run data get entity @s UUID[2]
+			/execute store result score Global tt_grave_storB3 run data get entity @s UUID[3]
+
+			if t_grave_storB0 == tt_grave_storB0 and t_grave_storB1 == tt_grave_storB1 and t_grave_storB2 == tt_grave_storB2 and t_grave_storB3 == tt_grave_storB3
 				/tp @s ~ ~ ~
 				/kill @s
 			end
@@ -131,4 +163,8 @@ function copy_grave_items_a()
 	/item replace entity @s container.24 from entity @p inventory.24
 	/item replace entity @s container.25 from entity @p inventory.25
 	/item replace entity @s container.26 from entity @p inventory.26
+end
+
+function copy_grave_items_b()
+	/item replace entity @s container.0 from entity @p hotbar.0
 end
