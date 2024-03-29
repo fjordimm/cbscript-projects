@@ -64,11 +64,28 @@ function display_hud(x, y, z, ry)
 	z_w = z / $computation_precision
 	z_d = (z % $computation_precision) * $display_precision / $computation_precision
 
-	/data modify storage $namespace:global temp_dirStr set value "-"
-	if ry > -45 and ry < 45
+	ry_w = ry / $computation_precision
+
+	if ry_w >= -23 and ry_w <= 23
+		/data modify storage $namespace:global temp_dirStr set value "S"
+	else if ry_w >= 23 and ry_w <= 68
+		/data modify storage $namespace:global temp_dirStr set value "SW"
+	else if ry_w >= 68 and ry_w <= 113
+		/data modify storage $namespace:global temp_dirStr set value "W"
+	else if ry_w >= 113 and ry_w <= 158
+		/data modify storage $namespace:global temp_dirStr set value "NW"
+	else if ry_w >= 158
 		/data modify storage $namespace:global temp_dirStr set value "N"
+	else if ry_w <= -158
+		/data modify storage $namespace:global temp_dirStr set value "N"
+	else if ry_w >= -158 and ry_w <= -113
+		/data modify storage $namespace:global temp_dirStr set value "NE"
+	else if ry_w >= -113 and ry_w <= -68
+		/data modify storage $namespace:global temp_dirStr set value "E"
+	else if ry_w >= -68 and ry_w <= -23
+		/data modify storage $namespace:global temp_dirStr set value "SE"
 	else
-		/data modify storage $namespace:global temp_dirStr set value "N"
+		/data modify storage $namespace:global temp_dirStr set value "-"
 	end
 
 	# coords
@@ -79,7 +96,7 @@ function display_hud(x, y, z, ry)
 		/title @s actionbar ["",{"score":{"name":"Global","objective":"x_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"x_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"y_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"y_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"z_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"z_d"},"color":"gray"}]
 	# coord & dir
 	else if @s.hudinfo_coords and @s.hudinfo_dir
-		/title @s actionbar ["",{"score":{"name":"Global","objective":"x_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"x_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"y_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"y_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"z_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"z_d"},"color":"gray"},{"text":" [","color":"dark_gray"},{"nbt":"temp_dirStr","storage":"hudinfo:global","color":"dark_gray"},{"text":"]","color":"dark_gray"}]
+		/title @s actionbar ["",{"score":{"name":"Global","objective":"x_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"x_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"y_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"y_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"z_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"z_d"},"color":"gray"},{"text":"   [","color":"dark_gray"},{"nbt":"temp_dirStr","storage":"hudinfo:global","color":"dark_gray"},{"text":"]","color":"dark_gray"}]
 	# -
 	else
 		actionbar @s "{w-"
