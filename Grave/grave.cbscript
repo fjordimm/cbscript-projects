@@ -36,7 +36,6 @@ clock tick
 
 	as @a
 		if @s.grave_pdeaths > 0
-			tell @a "lol he dead"
 			/scoreboard players set @s grave_pdeaths 0
 
 			at @s
@@ -94,9 +93,8 @@ function kill_grave()
 			/execute store result score Global tt_grave_storA3 run data get entity @s UUID[3]
 
 			if t_grave_storA0 == tt_grave_storA0 and t_grave_storA1 == tt_grave_storA1 and t_grave_storA2 == tt_grave_storA2 and t_grave_storA3 == tt_grave_storA3
-				tell @a "thats it"
-			else
-				tell @a "thats not it"
+				/tp @s ~ ~ ~
+				/kill @s
 			end
 		end
 
