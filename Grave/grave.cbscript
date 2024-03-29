@@ -32,7 +32,6 @@ reset
 end
 
 clock tick
-	/execute store result score Global temp_keepInv run gamerule keepInventory
 	/gamerule keepInventory true
 
 	as @a
@@ -50,12 +49,6 @@ clock tick
 		/execute if data entity @s attack run function $namespace:grave_attacked
 		/execute if data entity @s interaction run function $namespace:grave_interacted
 	end
-
-	if temp_keepInv
-		/gamerule keepInventory true
-	else
-		/gamerule keepInventory false
-	end
 end
 
 function make_new_grave()
@@ -67,11 +60,9 @@ function make_new_grave()
 			/execute store result score @s grave_storageA1 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[1]
 			/execute store result score @s grave_storageA2 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[2]
 			/execute store result score @s grave_storageA3 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[3]
-
 			as @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest]
 				copy_grave_items_a()
 			end
-
 			/tp @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] 0 100 0
 		end
 	end
@@ -91,22 +82,55 @@ function grave_interacted()
 end
 
 function kill_grave()
-	# at @s
-	# 	as create @TempInventorySlots
-			
-	# 		/item replace entity @s inventory.3 with minecraft:diamond
-	# 		/kill @s
-	# 	end
-	# end
+	at @s
+		t_grave_storA0 = @s.grave_storageA0
+		t_grave_storA1 = @s.grave_storageA1
+		t_grave_storA2 = @s.grave_storageA2
+		t_grave_storA3 = @s.grave_storageA3
+		as @GraveStorage
+			/execute store result score Global tt_grave_storA0 run data get entity @s UUID[0]
+			/execute store result score Global tt_grave_storA1 run data get entity @s UUID[1]
+			/execute store result score Global tt_grave_storA2 run data get entity @s UUID[2]
+			/execute store result score Global tt_grave_storA3 run data get entity @s UUID[3]
 
-	# create @TempInventorySlots
-	# /item replace entity @e[tag=TempInventorySlots,limit=1,sort=nearest] inventory.3 with minecraft:diamond
-	# /kill @e[tag=TempInventorySlots,limit=1,sort=nearest]
+			if t_grave_storA0 == tt_grave_storA0 and t_grave_storA1 == tt_grave_storA1 and t_grave_storA2 == tt_grave_storA2 and t_grave_storA3 == tt_grave_storA3
+				tell @a "thats it"
+			else
+				tell @a "thats not it"
+			end
+		end
 
-	/kill @GraveBlockDisplay[limit=1,sort=nearest]
-	/kill @s
+		/kill @GraveBlockDisplay[limit=1,sort=nearest]
+		/kill @s
+	end
 end
 
 function copy_grave_items_a()
-	/item replace entity @s inventory.0 from entity @p hotbar.0
+	/item replace entity @s container.0 from entity @p inventory.0
+	/item replace entity @s container.1 from entity @p inventory.1
+	/item replace entity @s container.2 from entity @p inventory.2
+	/item replace entity @s container.3 from entity @p inventory.3
+	/item replace entity @s container.4 from entity @p inventory.4
+	/item replace entity @s container.5 from entity @p inventory.5
+	/item replace entity @s container.6 from entity @p inventory.6
+	/item replace entity @s container.7 from entity @p inventory.7
+	/item replace entity @s container.8 from entity @p inventory.8
+	/item replace entity @s container.9 from entity @p inventory.9
+	/item replace entity @s container.10 from entity @p inventory.10
+	/item replace entity @s container.11 from entity @p inventory.11
+	/item replace entity @s container.12 from entity @p inventory.12
+	/item replace entity @s container.13 from entity @p inventory.13
+	/item replace entity @s container.14 from entity @p inventory.14
+	/item replace entity @s container.15 from entity @p inventory.15
+	/item replace entity @s container.16 from entity @p inventory.16
+	/item replace entity @s container.17 from entity @p inventory.17
+	/item replace entity @s container.18 from entity @p inventory.18
+	/item replace entity @s container.19 from entity @p inventory.19
+	/item replace entity @s container.20 from entity @p inventory.20
+	/item replace entity @s container.21 from entity @p inventory.21
+	/item replace entity @s container.22 from entity @p inventory.22
+	/item replace entity @s container.23 from entity @p inventory.23
+	/item replace entity @s container.24 from entity @p inventory.24
+	/item replace entity @s container.25 from entity @p inventory.25
+	/item replace entity @s container.26 from entity @p inventory.26
 end
