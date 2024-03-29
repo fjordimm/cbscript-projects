@@ -4,20 +4,29 @@ scale 1000
 
 import entities
 
-define @GraveBlockDisplay: @Entity[type=block_display, tag=GraveBlockDisplay]
+define @GraveBlockDisplay: @Entity[type=block_display,tag=GraveBlockDisplay]
 	create {Tags:["GraveBlockDisplay"],block_state:{Name:"minecraft:soul_lantern"},Glowing:1b}
 end
 
-define @GraveInteraction: @Entity[type=interaction, tag=GraveInteraction]
+define @GraveInteraction: @Entity[type=interaction,tag=GraveInteraction]
 	create {Tags:["GraveInteraction"],response:1b,width:0.5f,height:0.6f}
 end
 
-define @TempInventorySlots: @Entity[type=chest_minecart, tag=TempInventorySlots]
-	create {Tags:["TempInventorySlots"]}
+# define @TempInventorySlots: @Entity[type=chest_minecart, tag=TempInventorySlots]
+# 	create {Tags:["TempInventorySlots"]}
+# end
+
+define @GraveStorage: @Entity[type=chest_minecart,tag=GraveStorage]
+	create {Tags:["GraveStorage"],NoGravity:1b,Silent:1b,Invulnerable:1b}
 end
 
 reset
 	tell @a "{w{ILoaded {Dgrave{d datapack!"
+
+	/scoreboard objectives add grave_storageA0 dummy
+	/scoreboard objectives add grave_storageA1 dummy
+	/scoreboard objectives add grave_storageA2 dummy
+	/scoreboard objectives add grave_storageA3 dummy
 end
 
 clock tick
@@ -35,6 +44,12 @@ function make_new_grave()
 
 	at @s ~ ~ ~
 		as create @GraveInteraction
+			create @GraveStorage
+			/execute store result score @s grave_storageA0 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[0]
+			/execute store result score @s grave_storageA1 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[1]
+			/execute store result score @s grave_storageA2 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[2]
+			/execute store result score @s grave_storageA3 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[3]
+			/tp @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] 0 100 0
 		end
 	end
 end
@@ -48,13 +63,13 @@ function grave_interacted()
 end
 
 function kill_grave()
-	at @s
-		as create @TempInventorySlots
+	# at @s
+	# 	as create @TempInventorySlots
 			
-			/item replace entity @s inventory.3 with minecraft:diamond
-			/kill @s
-		end
-	end
+	# 		/item replace entity @s inventory.3 with minecraft:diamond
+	# 		/kill @s
+	# 	end
+	# end
 
 	# create @TempInventorySlots
 	# /item replace entity @e[tag=TempInventorySlots,limit=1,sort=nearest] inventory.3 with minecraft:diamond
