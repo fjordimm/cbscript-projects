@@ -17,7 +17,7 @@ reset
 	as @Player
 		@s.hudinfo_all = True
 		@s.hudinfo_coords = True
-		@s.hudinfo_cdecs = True
+		@s.hudinfo_cdecs = False
 		@s.hudinfo_dir = True
 
 		/scoreboard players set @s hudinfo_options 0
@@ -90,13 +90,21 @@ function display_hud(x, y, z, ry)
 
 	# coords
 	if @s.hudinfo_coords and not @s.hudinfo_dir
-		/title @s actionbar ["",{"score":{"name":"Global","objective":"x_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"x_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"y_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"y_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"z_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"z_d"},"color":"gray"}]
+		if @s.hudinfo_cdecs
+			/title @s actionbar ["",{"score":{"name":"Global","objective":"x_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"x_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"y_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"y_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"z_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"z_d"},"color":"gray"}]
+		else
+			/title @s actionbar ["",{"score":{"name":"Global","objective":"x_w"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"y_w"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"z_w"},"color":"gray"}]
+		end
 	# dir
 	else if not @s.hudinfo_coords and @s.hudinfo_dir
-		/title @s actionbar ["",{"score":{"name":"Global","objective":"x_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"x_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"y_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"y_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"z_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"z_d"},"color":"gray"}]
+		/title @s actionbar ["",{"text":"[ ","color":"dark_gray"},{"nbt":"temp_dirStr","storage":"hudinfo:global","color":"dark_gray"},{"text":" ]","color":"dark_gray"}]
 	# coord & dir
 	else if @s.hudinfo_coords and @s.hudinfo_dir
-		/title @s actionbar ["",{"score":{"name":"Global","objective":"x_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"x_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"y_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"y_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"z_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"z_d"},"color":"gray"},{"text":"   [","color":"dark_gray"},{"nbt":"temp_dirStr","storage":"hudinfo:global","color":"dark_gray"},{"text":"]","color":"dark_gray"}]
+		if @s.hudinfo_cdecs
+			/title @s actionbar ["",{"score":{"name":"Global","objective":"x_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"x_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"y_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"y_d"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"z_w"},"color":"gray"},{"text":".","color":"gray"},{"score":{"name":"Global","objective":"z_d"},"color":"gray"},{"text":"     [ ","color":"dark_gray"},{"nbt":"temp_dirStr","storage":"hudinfo:global","color":"dark_gray"},{"text":" ]","color":"dark_gray"}]
+		else
+			/title @s actionbar ["",{"score":{"name":"Global","objective":"x_w"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"y_w"},"color":"gray"},{"text":" / ","color":"gray"},{"score":{"name":"Global","objective":"z_w"},"color":"gray"},{"text":"     [ ","color":"dark_gray"},{"nbt":"temp_dirStr","storage":"hudinfo:global","color":"dark_gray"},{"text":" ]","color":"dark_gray"}]
+		end
 	# -
 	else
 		actionbar @s "{w-"
