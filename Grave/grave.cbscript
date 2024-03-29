@@ -27,29 +27,57 @@ reset
 	/scoreboard objectives add grave_storageA1 dummy
 	/scoreboard objectives add grave_storageA2 dummy
 	/scoreboard objectives add grave_storageA3 dummy
+
+	/scoreboard objectives add grave_pdeaths deathCount
 end
 
 clock tick
+	/execute store result score Global temp_keepInv run gamerule keepInventory
+	/gamerule keepInventory true
+
+	as @a
+		if @s.grave_pdeaths > 0
+			tell @a "lol he dead"
+			/scoreboard players set @s grave_pdeaths 0
+
+			at @s
+				make_new_grave()
+			end
+		end
+	end
+
 	as @GraveInteraction
 		/execute if data entity @s attack run function $namespace:grave_attacked
 		/execute if data entity @s interaction run function $namespace:grave_interacted
 	end
+
+	if temp_keepInv
+		/gamerule keepInventory true
+	else
+		/gamerule keepInventory false
+	end
 end
 
 function make_new_grave()
-	at @s ~-0.5 ~ ~-0.5
-		as create @GraveBlockDisplay
-		end
-	end
-
 	at @s ~ ~ ~
 		as create @GraveInteraction
+			# grave storage A
 			create @GraveStorage
 			/execute store result score @s grave_storageA0 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[0]
 			/execute store result score @s grave_storageA1 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[1]
 			/execute store result score @s grave_storageA2 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[2]
 			/execute store result score @s grave_storageA3 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[3]
+
+			as @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest]
+				copy_grave_items_a()
+			end
+
 			/tp @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] 0 100 0
+		end
+	end
+
+	at @s ~-0.5 ~ ~-0.5
+		as create @GraveBlockDisplay
 		end
 	end
 end
@@ -77,4 +105,8 @@ function kill_grave()
 
 	/kill @GraveBlockDisplay[limit=1,sort=nearest]
 	/kill @s
+end
+
+function copy_grave_items_a()
+	/item replace entity @s inventory.0 from entity @p hotbar.0
 end
