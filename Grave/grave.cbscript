@@ -48,10 +48,11 @@ function grave_interacted()
 end
 
 function kill_grave()
-	as create @TempInventorySlots
-		at @s
+	at @s
+		as create @TempInventorySlots
+			
 			/item replace entity @s inventory.3 with minecraft:diamond
-			# /kill @s
+			/kill @s
 		end
 	end
 
