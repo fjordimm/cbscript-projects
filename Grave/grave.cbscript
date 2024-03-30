@@ -5,16 +5,12 @@ scale 1000
 import entities
 
 define @GraveBlockDisplay: @Entity[type=block_display,tag=GraveBlockDisplay]
-	create {Tags:["GraveBlockDisplay"],block_state:{Name:"minecraft:soul_lantern"},Glowing:1b}
+	create {Tags:["GraveBlockDisplay"],block_state:{Name:"minecraft:soul_lantern"},Rotation:[45F,0F],brightness:{sky:15,block:15},transformation:{left_rotation:[0f,0f,0f,1f],right_rotation:[0f,0f,0f,1f],translation:[0f,0f,0f],scale:[2f,2f,2f]}}
 end
 
 define @GraveInteraction: @Entity[type=interaction,tag=GraveInteraction]
 	create {Tags:["GraveInteraction"],response:1b,width:0.5f,height:0.6f}
 end
-
-# define @TempInventorySlots: @Entity[type=chest_minecart, tag=TempInventorySlots]
-# 	create {Tags:["TempInventorySlots"]}
-# end
 
 define @GraveStorage: @Entity[type=chest_minecart,tag=GraveStorage]
 	create {Tags:["GraveStorage"],NoGravity:1b,Silent:1b,Invulnerable:1b}
@@ -22,6 +18,8 @@ end
 
 reset
 	tell @a "{w{ILoaded {Dgrave{d datapack!"
+
+	/scoreboard objectives add grave_pdeaths deathCount
 
 	/scoreboard objectives add grave_storageA0 dummy
 	/scoreboard objectives add grave_storageA1 dummy
@@ -33,11 +31,13 @@ reset
 	/scoreboard objectives add grave_storageB2 dummy
 	/scoreboard objectives add grave_storageB3 dummy
 
-	/scoreboard objectives add grave_pdeaths deathCount
+	/scoreboard objectives add grave_tickclock dummy
+	grave_tickclock = 0
 end
 
 clock tick
 	/gamerule keepInventory true
+	grave_tickclock += 1
 
 	as @a
 		if @s.grave_pdeaths > 0
@@ -52,6 +52,16 @@ clock tick
 	as @GraveInteraction
 		/execute if data entity @s attack run function $namespace:grave_attacked
 		/execute if data entity @s interaction run function $namespace:grave_interacted
+
+		at @s
+			if grave_tickclock % 1 == 0
+				/particle minecraft:sculk_soul ~ ~0.6 ~ 0.27 0.35 0.27 0 1 normal @a
+			end
+
+			if grave_tickclock % 35 == 0
+				/playsound minecraft:block.beacon.ambient block @a ~ ~ ~ 0.5
+			end
+		end
 	end
 end
 
@@ -84,7 +94,7 @@ function make_new_grave()
 		end
 	end
 
-	at @s ~-0.5 ~ ~-0.5
+	at @s ~ ~ ~-1.414
 		as create @GraveBlockDisplay
 		end
 	end
