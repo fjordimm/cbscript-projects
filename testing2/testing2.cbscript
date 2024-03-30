@@ -1,0 +1,9 @@
+dir "C:\Users\billm\AppData\Roaming\.minecraft\saves\testingpacks3"
+desc "um testing 3"
+scale 1000
+
+import entities
+
+reset
+	tell @a "{w{ILoaded {Dtesting2{d datapack!"
+end

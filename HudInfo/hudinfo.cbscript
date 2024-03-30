@@ -1,4 +1,4 @@
-dir "C:\Users\billm\AppData\Roaming\.minecraft\saves\testing datapack"
+dir "C:\Users\billm\AppData\Roaming\.minecraft\saves\testingpacks3"
 desc "Displays coordinates and other things above the hotbar"
 scale 1000
 $computation_precision = 1000
