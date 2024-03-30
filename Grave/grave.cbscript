@@ -9,7 +9,7 @@ define @GraveBlockDisplay: @Entity[type=block_display,tag=GraveBlockDisplay]
 end
 
 define @GraveInteraction: @Entity[type=interaction,tag=GraveInteraction]
-	create {Tags:["GraveInteraction"],response:1b,width:0.5f,height:0.6f}
+	create {Tags:["GraveInteraction"],response:0b,width:0.5f,height:0.6f}
 end
 
 define @GraveStorage: @Entity[type=chest_minecart,tag=GraveStorage]
@@ -68,7 +68,7 @@ end
 function make_new_grave()
 	at @s ~ ~ ~
 		as create @GraveInteraction
-			# grave storage A
+			# storage A
 			create @GraveStorage
 			/execute store result score @s grave_storageA0 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[0]
 			/execute store result score @s grave_storageA1 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[1]
@@ -79,7 +79,7 @@ function make_new_grave()
 			end
 			/tp @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] 0 100 0
 
-			# grave storage B
+			# storage B
 			create @GraveStorage
 			/execute store result score @s grave_storageB0 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[0]
 			/execute store result score @s grave_storageB1 run data get entity @e[type=chest_minecart,tag=GraveStorage,limit=1,sort=nearest] UUID[1]
@@ -105,11 +105,14 @@ function grave_attacked()
 end
 
 function grave_interacted()
-	kill_grave()
+	# kill_grave()
 end
 
 function kill_grave()
 	at @s
+		/playsound minecraft:block.shulker_box.open block @a ~ ~ ~ 1
+
+		# storage A
 		t_grave_storA0 = @s.grave_storageA0
 		t_grave_storA1 = @s.grave_storageA1
 		t_grave_storA2 = @s.grave_storageA2
@@ -126,6 +129,7 @@ function kill_grave()
 			end
 		end
 
+		# storage B
 		t_grave_storB0 = @s.grave_storageB0
 		t_grave_storB1 = @s.grave_storageB1
 		t_grave_storB2 = @s.grave_storageB2
